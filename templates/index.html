@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariel's Music Mix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+    <!-- Website Header -->
+    <header>
+
+        <div class="header-content">
+
+            <div class="header-title">
+
+                <div class="site-title">
+
+                    <span class="music-icon">♪</span>
+
+                    <div>
+                        <h1>Ariel's Music Mix</h1>
+                        <p>My personal Spotify music dashboard</p>
+                    </div>
+
+                </div>
+
+                <!-- Spotify Login Status -->
+                <div class="spotify-user">
+
+                    {% if user %}
+
+                        {% if user.image %}
+
+                            <img src="{{ user.image }}"
+                                 alt="{{ user.name }} Spotify profile picture"
+                                 class="profile-image">
+
+                        {% endif %}
+
+                        <span>{{ user.name }} is signed in</span>
+
+                    {% else %}
+
+                        <a href="{{ url_for('login') }}"
+                           class="spotify-login-button">
+                            Connect Spotify
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('top_music') }}">Top Music</a>
+
+    </nav>
+
+    <main>
+
+        <!-- Now Playing Section -->
+        <section class="now-playing-section">
+
+            <h2>Now Playing</h2>
+
+            <div class="now-playing-card">
+
+                {% if now_playing %}
+
+                    {% if now_playing.image %}
+
+                        <img src="{{ now_playing.image }}"
+                             alt="{{ now_playing.title }} album cover"
+                             class="now-playing-cover">
+
+                    {% else %}
+
+                        <div class="now-playing-image">
+                            <span>♪</span>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="now-playing-info">
+
+                        <p class="now-playing-label">CURRENT TRACK</p>
+
+                        <h3>{{ now_playing.title }}</h3>
+
+                        <p>{{ now_playing.artist }}</p>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="now-playing-image">
+                        <span>♪</span>
+                    </div>
+
+                    <div class="now-playing-info">
+
+                        <p class="now-playing-label">CURRENT TRACK</p>
+
+                        <h3>Nothing Playing</h3>
+
+                        <p>N/A</p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Recent Listening Section -->
+        <section class="recent-section" id="recent">
+
+            <h2>Recent Listening</h2>
+
+            <div class="song-container">
+
+                {% if recent_tracks %}
+
+                    {% for track in recent_tracks %}
+
+                        <div class="song-card">
+
+                            {% if track.image %}
+
+                                <img src="{{ track.image }}"
+                                     alt="{{ track.title }} album cover"
+                                     class="album-cover">
+
+                            {% else %}
+
+                                <div class="album-placeholder">
+                                    ♪
+                                </div>
+
+                            {% endif %}
+
+                            <div class="song-info">
+
+                                <h3>{{ track.title }}</h3>
+
+                                <p>{{ track.artist }}</p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    {% for number in range(6) %}
+
+                        <div class="song-card">
+
+                            <div class="album-placeholder">
+                                ♪
+                            </div>
+
+                            <div class="song-info">
+
+                                <h3>No Data</h3>
+
+                                <p>N/A</p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Liked Songs Section -->
+        <section class="liked-section" id="liked">
+
+            <h2>Liked Songs</h2>
+
+            <div class="song-container">
+
+                {% if liked_tracks %}
+
+                    {% for track in liked_tracks %}
+
+                        <div class="song-card">
+
+                            {% if track.image %}
+
+                                <img src="{{ track.image }}"
+                                     alt="{{ track.title }} album cover"
+                                     class="album-cover">
+
+                            {% else %}
+
+                                <div class="album-placeholder">
+                                    ♪
+                                </div>
+
+                            {% endif %}
+
+                            <div class="song-info">
+
+                                <div class="song-title-row">
+
+                                    <h3>{{ track.title }}</h3>
+
+                                    <span class="liked-heart">♥</span>
+
+                                </div>
+
+                                <p>{{ track.artist }}</p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    {% for number in range(6) %}
+
+                        <div class="song-card">
+
+                            <div class="album-placeholder">
+                                ♪
+                            </div>
+
+                            <div class="song-info">
+
+                                <div class="song-title-row">
+
+                                    <h3>No Data</h3>
+
+                                    <span class="liked-heart">♥</span>
+
+                                </div>
+
+                                <p>N/A</p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            &copy; 2026 Ariel | Ariel's Music Mix
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Music | Ariel's Music Mix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+    <!-- Website Header -->
+    <header>
+
+        <div class="header-content">
+
+            <div class="header-title">
+
+                <div class="site-title">
+
+                    <span class="music-icon">♪</span>
+
+                    <div>
+                        <h1>Ariel's Music Mix</h1>
+                        <p>My personal Spotify music dashboard</p>
+                    </div>
+
+                </div>
+
+                <!-- Spotify Login Status -->
+                <div class="spotify-user">
+
+                    {% if user %}
+
+                        {% if user.image %}
+
+                            <img src="{{ user.image }}"
+                                 alt="{{ user.name }} Spotify profile picture"
+                                 class="profile-image">
+
+                        {% endif %}
+
+                        <span>{{ user.name }} is signed in</span>
+
+                    {% else %}
+
+                        <a href="{{ url_for('login') }}"
+                           class="spotify-login-button">
+                            Connect Spotify
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('top_music') }}">Top Music</a>
+
+    </nav>
+
+    <main>
+
+        <!-- Top Tracks Section -->
+        <section class="top-section" id="top-tracks">
+
+            <div class="section-heading-row">
+
+                <h2>Top Tracks</h2>
+
+                <div class="time-filter">
+
+                    <a href="{{ url_for('top_music',
+                                       tracks_range='short_term',
+                                       artists_range=artists_range) }}#top-tracks"
+                       class="{% if tracks_range == 'short_term' %}active{% endif %}">
+                        4 Weeks
+                    </a>
+
+                    <a href="{{ url_for('top_music',
+                                       tracks_range='medium_term',
+                                       artists_range=artists_range) }}#top-tracks"
+                       class="{% if tracks_range == 'medium_term' %}active{% endif %}">
+                        6 Months
+                    </a>
+
+                    <a href="{{ url_for('top_music',
+                                       tracks_range='long_term',
+                                       artists_range=artists_range) }}#top-tracks"
+                       class="{% if tracks_range == 'long_term' %}active{% endif %}">
+                        1 Year
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="song-container">
+
+                {% if top_tracks %}
+
+                    {% for track in top_tracks %}
+
+                        <div class="song-card">
+
+                            {% if track.image %}
+
+                                <img src="{{ track.image }}"
+                                     alt="{{ track.title }} album cover"
+                                     class="album-cover">
+
+                            {% else %}
+
+                                <div class="album-placeholder">
+                                    ♪
+                                </div>
+
+                            {% endif %}
+
+                            <div class="song-info">
+
+                                <h3>{{ track.title }}</h3>
+
+                                <p>{{ track.artist }}</p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    {% for number in range(6) %}
+
+                        <div class="song-card">
+
+                            <div class="album-placeholder">
+                                ♪
+                            </div>
+
+                            <div class="song-info">
+
+                                <h3>No Data</h3>
+
+                                <p>N/A</p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Top Artists Section -->
+        <section class="top-section" id="top-artists">
+
+            <div class="section-heading-row">
+
+                <h2>Top Artists</h2>
+
+                <div class="time-filter">
+
+                    <a href="{{ url_for('top_music',
+                                       tracks_range=tracks_range,
+                                       artists_range='short_term') }}#top-artists"
+                       class="{% if artists_range == 'short_term' %}active{% endif %}">
+                        4 Weeks
+                    </a>
+
+                    <a href="{{ url_for('top_music',
+                                       tracks_range=tracks_range,
+                                       artists_range='medium_term') }}#top-artists"
+                       class="{% if artists_range == 'medium_term' %}active{% endif %}">
+                        6 Months
+                    </a>
+
+                    <a href="{{ url_for('top_music',
+                                       tracks_range=tracks_range,
+                                       artists_range='long_term') }}#top-artists"
+                       class="{% if artists_range == 'long_term' %}active{% endif %}">
+                        1 Year
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="artist-container">
+
+                {% if top_artists %}
+
+                    {% for artist in top_artists %}
+
+                        <div class="artist-card">
+
+                            {% if artist.image %}
+
+                                <img src="{{ artist.image }}"
+                                     alt="{{ artist.name }} artist image"
+                                     class="artist-image">
+
+                            {% else %}
+
+                                <div class="artist-placeholder">
+                                    ♪
+                                </div>
+
+                            {% endif %}
+
+                            <h3>{{ artist.name }}</h3>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    {% for number in range(6) %}
+
+                        <div class="artist-card">
+
+                            <div class="artist-placeholder">
+                                ♪
+                            </div>
+
+                            <h3>No Data</h3>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            &copy; 2026 Ariel | Ariel's Music Mix
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
